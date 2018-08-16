@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.css" />
+	<link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css" />
+	<script src="bootstrap/js/jquery-1.11.2.min.js"></script>
+	<script src="bootstrap/js/bootstrap.js"></script>
+	<style>
+		.content{
+			width: 400px;
+			height: 266px;
+			margin-top: 50px;
+			margin-left: 50px;
+		}
+		canvas {
+			/* background: lightgray; */
+			border: 1px solid gray;
+			margin-left: 50px;
+		}
+		#do{
+			margin-left: 50px;
+			margin-bottom: 30px;
+		}
+		#change{
+			margin-left: 90px;
+			margin-bottom: 30px;
+		}
+	</style>
+	
+</head>
+<body>
+	<div class="content">
+		<form class="form-horizontal">
+		  <div class="form-group">
+		    <label for="inputEmail3" class="col-sm-3 control-label">Item A</label>
+		    <div class="col-sm-9">
+		      <input type="text" class="form-control" id="a">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="inputPassword3" class="col-sm-3 control-label">Item B</label>
+		    <div class="col-sm-9">
+		      <input type="text" class="form-control" id="b">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="inputEmail3" class="col-sm-3 control-label">Item C</label>
+		    <div class="col-sm-9">
+		      <input type="text" class="form-control" id="c">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="inputEmail3" class="col-sm-3 control-label">Item D</label>
+		    <div class="col-sm-9">
+		      <input type="text" class="form-control" id="d">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="inputEmail3" class="col-sm-3 control-label">Item E</label>
+		    <div class="col-sm-9">
+		      <input type="text" class="form-control" id="e">
+		    </div>
+		  </div>
+		  
+		</form>
+	</div>
+	<div>
+		<button class="btn btn-info" id="change">change</button>
+		<button class="btn btn-success" id="do">do</button>
+	</div>
+	<div id="canvas">
+		
+	</div>
+	
+</body>
+<script>
+	
+	
+	var doCanvas = function(){
+		$("#canvas").empty();
+		$("#canvas").append($('<canvas id="can" width="1000px" height="500px"></canvas>'));
+		canvas = document.querySelector("#can");
+		ctx = canvas.getContext("2d");
+		var WIDTH = canvas.width;
+		var HEIGHT = canvas.height; 
+
+		var bg = new Image();
+		bg.src = "bg.gif";
+		bg.onload = () => {
+			var pattern = ctx.createPattern(bg, "repeat");
+			ctx.fillStyle = pattern;
+			ctx.fillRect(0, 0, WIDTH, HEIGHT);
+		};
+
+		var image = new Image();
+		image.src = "logo.png";
+		image.onload = () => {
+			ctx.drawImage(image, (WIDTH-140), 0);
+		};
+		ctx.fillStyle = "#000000";
+
+		ctx.beginPath();
+		ctx.moveTo(50, 450);
+		ctx.lineTo(900, 450);
+		// ctx.closePath();
+		ctx.stroke();
+
+		ctx.beginPath();
+		ctx.moveTo(50, 450);
+		ctx.lineTo(50, 100);
+		// ctx.closePath();
+		ctx.stroke();
+
+		ctx.beginPath();
+		ctx.moveTo(50, 380);
+		ctx.lineTo(900, 380);
+		// ctx.closePath();
+		ctx.stroke();
+
+		ctx.beginPath();
+		ctx.moveTo(50, 310);
+		ctx.lineTo(900, 310);
+		// ctx.closePath();
+		ctx.stroke();
+
+		ctx.beginPath();
+		ctx.moveTo(50, 240);
+		ctx.lineTo(900, 240);
+		// ctx.closePath();
+		ctx.stroke();
+
+		ctx.beginPath();
+		ctx.moveTo(50, 170);
+		ctx.lineTo(900, 170);
+		// ctx.closePath();
+		ctx.stroke();
+
+		ctx.beginPath();
+		ctx.moveTo(45, 100);
+		ctx.lineTo(55, 100);
+		ctx.lineTo(50, 90);
+		ctx.closePath();
+		ctx.fill();
+
+		ctx.beginPath();
+		ctx.moveTo(900, 445);
+		ctx.lineTo(900, 455);
+		ctx.lineTo(910, 450);
+		ctx.closePath();
+		ctx.fill();
+
+		var aryx = ["Item A","Item B","Item C","Item D","Item E"];
+		var aryy = [50,100,150,200];
+		for(var i = 0;i<aryx.length;i++){
+			ctx.textAlign = "center";
+			ctx.textBaseline = "top";
+			ctx.strokeText(aryx[i], (100+180*i), 455);
+			
+		};
+		for(var i = 1;i<=aryy.length;i++){
+			ctx.textAlign = "right";
+			ctx.textBaseline = "middle";
+			ctx.strokeText(aryy[i-1], 45, (450-70*i));
+		};
+		
+	};
+	doCanvas();
+	$("#do").click(function() {
+		doCanvas();
+		ctx.fillStyle = "#000000";
+		var a = $("#a").val();
+		var b = $("#b").val();
+		var c = $("#c").val();
+		var d = $("#d").val();
+		var e = $("#e").val();
+		var nums = [a,b,c,d,e];
+		var points = [];
+		for(var i = 0;i<nums.length;i++){
+			function Point(x, y) {
+				this.x = x;
+				this.y = y;
+			}
+			points.push(new Point((100+180*i), 450-(280*(nums[i])/200)));
+		};
+		ctx.beginPath();
+		for (var j=0; j<points.length; j++) {
+			ctx.textAlign = "center";
+			ctx.textBaseline = "bottom";
+			ctx.strokeText(nums[j], points[j].x,(points[j].y)-5);
+			ctx.lineTo(points[j].x, points[j].y);
+		}
+		ctx.stroke();
+	});
+	$("#change").click(function(){
+		$("#a").val(parseInt(Math.random()*200));
+		$("#b").val(parseInt(Math.random()*200));
+		$("#c").val(parseInt(Math.random()*200));
+		$("#d").val(parseInt(Math.random()*200));
+		$("#e").val(parseInt(Math.random()*200));
+	});
+
+	// $("#can").mousemove = function(e){
+
+	// };
+</script>
+</html>
